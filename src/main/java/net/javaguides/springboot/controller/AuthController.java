@@ -20,11 +20,11 @@ public class AuthController {
         this.userService = userService;
     }
 
+    // handler method to handle login page request
     @GetMapping("/login")
-    public String loginForm() {
+    public String loginPage(){
         return "login";
     }
-
     // handler method to handle user registration request
     @GetMapping("/register")
     public String showRegistrationForm(Model model){
