@@ -13,7 +13,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3>
-                            <a th:href="@{/post/{postId}/view(postId=${post.id})}"
+                            <a th:href="@{/post/{postUrl}(postUrl=${post.url})}"
                                 th:text="${post.title}"></a>
                         </h3>
                         <div>
@@ -24,7 +24,7 @@
                     </div>
                     <div class="card-body">
                         <span th:utext="${post.shortDescription}"> </span>
-                        <a th:href="@{/post/{postId}/view(postId=${post.id})}">Read more</a>
+                        <a th:href="@{/post/{postUrl}(postUrl=${post.url})}">Read more</a>
                     </div>
                 </div>
                 <br />

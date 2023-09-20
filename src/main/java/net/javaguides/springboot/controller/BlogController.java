@@ -1,5 +1,6 @@
 package net.javaguides.springboot.controller;
 
+import net.javaguides.springboot.dto.CommentDto;
 import net.javaguides.springboot.dto.PostDto;
 import net.javaguides.springboot.service.PostService;
 import org.springframework.stereotype.Controller;
@@ -28,11 +29,14 @@ public class BlogController {
     }
 
     // handler method to handle view post request
-    @GetMapping("/post/{postId}/view")
-    private String showPost(@PathVariable("postId") Long postId,
+    @GetMapping("/post/{postUrl}")
+    private String showPost(@PathVariable("postUrl") String postUrl,
                             Model model){
-        PostDto post = postService.findPostById(postId);
+        PostDto post = postService.findPostByUrl(postUrl);
+
+        CommentDto commentDto = new CommentDto();
         model.addAttribute("post", post);
+        model.addAttribute("comment", commentDto);
         return "blog/blog_post";
     }
 
