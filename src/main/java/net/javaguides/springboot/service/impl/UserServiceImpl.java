@@ -29,7 +29,8 @@ public class UserServiceImpl implements UserService {
         user.setName(registrationDto.getFirstName() + " " + registrationDto.getLastName());
         user.setEmail(registrationDto.getEmail());
         // use spring security to encrypt the password
-       // user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
+//        user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
+       user.setPassword(registrationDto.getPassword());
         Role role = roleRepository.findByName("ROLE_GUEST");
         user.setRoles(Arrays.asList(role));
         userRepository.save(user);

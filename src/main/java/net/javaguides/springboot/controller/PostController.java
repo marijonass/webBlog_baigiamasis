@@ -122,8 +122,7 @@ public class PostController {
     }
 
     private static String getUrl(String postTitle){
-        // OOPS Concepts Explained in Java
-        // oops-concepts-explained-in-java
+
         String title = postTitle.trim().toLowerCase();
         String url = title.replaceAll("\\s+", "-");
         url = url.replaceAll("[^A-Za-z0-9]", "-");
