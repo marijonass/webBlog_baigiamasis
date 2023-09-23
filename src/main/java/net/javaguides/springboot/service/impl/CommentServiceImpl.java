@@ -3,10 +3,13 @@ package net.javaguides.springboot.service.impl;
 import net.javaguides.springboot.dto.CommentDto;
 import net.javaguides.springboot.entity.Comment;
 import net.javaguides.springboot.entity.Post;
+import net.javaguides.springboot.entity.User;
 import net.javaguides.springboot.mapper.CommentMapper;
 import net.javaguides.springboot.repository.CommentRepository;
 import net.javaguides.springboot.repository.PostRepository;
+import net.javaguides.springboot.repository.UserRepository;
 import net.javaguides.springboot.service.CommentService;
+import net.javaguides.springboot.util.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,10 +20,12 @@ public class CommentServiceImpl implements CommentService {
 
     private CommentRepository commentRepository;
     private PostRepository postRepository;
+    private UserRepository userRepository;
 
-    public CommentServiceImpl(CommentRepository commentRepository, PostRepository postRepository) {
+    public CommentServiceImpl(CommentRepository commentRepository, PostRepository postRepository,UserRepository userRepository) {
         this.commentRepository = commentRepository;
         this.postRepository = postRepository;
+        this.userRepository=userRepository;
     }
 
     @Override
@@ -43,5 +48,16 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteComment(Long commentId) {
         commentRepository.deleteById(commentId);
+    }
+
+    @Override
+    public List<CommentDto> findCommentsByPost() {
+        String email = SecurityUtils.getCurrentUser().getUsername();
+        User createdBy = userRepository.findByEmail(email);
+        Long userId= createdBy.getId();
+        List<Comment> comments= commentRepository.findCommentsByPost(userId);
+        return comments.stream()
+                .map((comment -> CommentMapper.mapToCommentDto(comment)))
+                .collect(Collectors.toList());
     }
 }
