@@ -1,5 +1,7 @@
 package net.javaguides.springboot.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import net.javaguides.springboot.dto.CommentDto;
 import net.javaguides.springboot.dto.PostDto;
@@ -7,15 +9,21 @@ import net.javaguides.springboot.service.CommentService;
 import net.javaguides.springboot.service.PostService;
 import net.javaguides.springboot.util.ROLE;
 import net.javaguides.springboot.util.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 public class PostController {
+    @Autowired
+    private CookieLocaleResolver localeResolver;
+
 
     private PostService postService;
     private CommentService commentService;
@@ -133,6 +141,25 @@ public class PostController {
         List<PostDto> posts = postService.searchPosts(query);
         model.addAttribute("posts", posts);
         return "admin/posts";
+    }
+
+    @GetMapping("/toggle-language")
+    public String toggleLanguage(HttpServletRequest request, HttpServletResponse response,
+                                 @RequestParam("lang") String lang) {
+        Locale locale;
+        if (lang.equalsIgnoreCase("fr")) {
+            locale = Locale.FRENCH;
+        } else if (lang.equalsIgnoreCase("en")) {
+            locale = Locale.ENGLISH;
+        } else {
+            // Handle unsupported language here, maybe set a default
+            locale = Locale.ENGLISH; // Set a default in case of unsupported language
+        }
+
+        localeResolver.setLocale(request, response, locale);
+
+        // Redirect to the home page ("/") after changing the language
+        return "redirect:/";
     }
 
     private static String getUrl(String postTitle){
