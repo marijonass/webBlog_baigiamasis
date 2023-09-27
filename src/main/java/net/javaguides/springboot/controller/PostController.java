@@ -143,24 +143,27 @@ public class PostController {
         return "admin/posts";
     }
 
-    @GetMapping("/toggle-language")
-    public String toggleLanguage(HttpServletRequest request, HttpServletResponse response,
-                                 @RequestParam("lang") String lang) {
-        Locale locale;
-        if (lang.equalsIgnoreCase("fr")) {
-            locale = Locale.FRENCH;
-        } else if (lang.equalsIgnoreCase("en")) {
-            locale = Locale.ENGLISH;
-        } else {
-            // Handle unsupported language here, maybe set a default
-            locale = Locale.ENGLISH; // Set a default in case of unsupported language
-        }
+//    @GetMapping("/toggle-language")
+//    public String toggleLanguage(HttpServletRequest request, HttpServletResponse response,
+//                                 @RequestParam("lang") String lang) {
+//        Locale locale;
+//        if (lang.equalsIgnoreCase("fr")) {
+//            locale = Locale.FRENCH;
+//        } else if (lang.equalsIgnoreCase("en")) {
+//            locale = Locale.ENGLISH;
+//        } else {
+//            // Handle unsupported language here, maybe set a default
+//            locale = Locale.ENGLISH; // Set a default in case of unsupported language
+//        }
+//
+//        localeResolver.setLocale(request, response, locale);
+//
+//        // Redirect to the home page ("/") after changing the language
+//        return "redirect:/";
+//    }
 
-        localeResolver.setLocale(request, response, locale);
 
-        // Redirect to the home page ("/") after changing the language
-        return "redirect:/";
-    }
+
 
     private static String getUrl(String postTitle){
 

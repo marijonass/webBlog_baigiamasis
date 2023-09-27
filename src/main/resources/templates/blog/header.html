@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
+
 <head th:fragment="header">
     <meta charset="UTF-8">
     <title>Blog App</title>
@@ -10,8 +11,9 @@
           rel="stylesheet">
 </head>
 
+
 <body>
-<script type="text/javascript" th:src="@{/js/scripts.js}" defer></script>
+
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="navbar">
     <div class="container-fluid">
@@ -36,7 +38,17 @@
         </div>
 
         <!-- Toggle Language Button -->
-        <button class="btn btn-dark me-2" onclick="setLanguage('fr')">French </button>
+        <div th:fragment="languageSelector" className="dropdown">
+            <button th:text="#{lang.options}" class="btn btn-dark dropdown-toggle me-2" type="button"
+                    id="langSelectBtn" data-bs-toggle="dropdown" aria-expanded="false"
+                    onclick="setLanguage('fr')">
+                EN
+            </button>
+            <ul className="dropdown-menu dropdown-menu-primary" aria-labelledby="langSelectBtn">
+                <li><a className="dropdown-item" onClick="setLanguage('fr')" th:text="#{lang.fr}"></a></li>
+                <li><a className="dropdown-item" onClick="setLanguage('en')" th:text="#{lang.en}"></a></li>
+            </ul>
+        </div>
     </div>
 </nav>
 

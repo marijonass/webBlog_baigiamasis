@@ -13,7 +13,10 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+
 
 import java.util.Locale;
 
@@ -40,7 +43,12 @@ public class WebSpringSecurity {
         localeResolver.setDefaultLocale(Locale.ENGLISH);  // Set your default locale
         return localeResolver;
     }
-
+@Bean
+public LocaleChangeInterceptor localeChangeInterceptor() {
+    LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
+    lci.setParamName("lang");
+    return lci;
+}
     @Bean
     public static PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -53,7 +61,7 @@ public class WebSpringSecurity {
                             authorize.requestMatchers(new AntPathRequestMatcher("/resources/**")).permitAll()
                                     .requestMatchers(new AntPathRequestMatcher("/register/**")).permitAll()
                                     .requestMatchers(new AntPathRequestMatcher("/admin/**"))
-                                    .hasAnyRole("ADMIN")
+                                    .hasAnyRole("ADMIN","GUEST")
                                     .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
                                     .requestMatchers(new AntPathRequestMatcher("/post/**")).permitAll()
                                     .anyRequest().authenticated()
@@ -74,4 +82,6 @@ public class WebSpringSecurity {
         builder.userDetailsService(userDetailsService).passwordEncoder(NoOpPasswordEncoder.getInstance());
 //                .passwordEncoder(passwordEncoder());
     }
+
+
 }
